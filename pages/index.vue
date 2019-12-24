@@ -1,12 +1,16 @@
 <template>
     <view>
         <view class="img-list" >
-			<image v-for="(item,index) in group" :key="index" ref="vref" class="lazy-image" :data-src="item.src" ></image>
-		</view>
+            <view class="item_c" v-for="(item,index) in group" :key="index">
+                <lazyImg :item="item"/>
+            </view>
+        </view>
     </view>
 </template>
 <script>
    
+   import lazyImg from '../../components/lazy-img'
+
 export default {
     data (){
         return {
@@ -42,28 +46,15 @@ export default {
         
     },
     components: {
+        lazyImg
     },
-    mounted(){
-        var child = this.$refs.vref;
-        let observer = new IntersectionObserver(entries => {
-            entries.forEach(item => {
-                if(item.isIntersecting){
-                    let imgUrl = item.target.dataset.src
-                    item.target.childNodes[0].style.backgroundImage =  'url('+imgUrl+')' 
-                    item.target.childNodes[1].src = imgUrl
-                }
-            })
-        })
-        child.forEach(item => observer.observe(item._vnode.elm))
-
-    },
-    destroyed () {
-        
-    }
 }
 </script>
 <style lang="scss" scoped>
     .lazy-image{
+        margin-bottom: 500px;
+    }
+    .item_c{
         margin-bottom: 500px;
     }
 </style>
